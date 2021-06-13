@@ -105,7 +105,7 @@ class RegistrySecurityDescriptor < Inspec.resource(1)
     sddl = inspec.powershell("(Get-Acl #{@path}).SDDL").stdout.strip.gsub("\r\n", '')
     raise "The provided Registry Key '#{@path}' does not have an SDDL associated." if sddl == ''
     @trustee_access_mask = {}
-    access_details = inspec.powershell("(Invoke-CimMethod Win32_SecurityDescriptorHelper -MethodName SDDLToWin32SD -Arguments @{ SDDL = '#{sddl}' }).Descriptor.DACL | Select @{Name=\"SID\";Expression={$_.Trustee.SIDString}},AccessMask").stdout.strip.split("\r\n")[2..-1].map { |entry| entry.split }
+    access_details = inspec.powershell("(Invoke-CimMethod Win32_SecurityDescriptorHelper -MethodName SDDLToWin32SD -Arguments @{ SDDL = '#{sddl}' }).Descriptor.DACL | Select @{Name=\"SID\";Expression={$_.Trustee.SIDString}},AccessMask").stdout.strip.split("\r\n")[2..-1].map(&:split)
     access_details.each do |access_detail|
       trusteesid = access_detail[0]
       accessmask = access_detail[1]

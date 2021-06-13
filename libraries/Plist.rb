@@ -30,7 +30,7 @@ class Plist < Inspec.resource(1)
 
   def method_missing(*args)
     load_json
-    required_key = args[0].is_a?(Array) ? args[0].map { |x| x.to_s } : args[0].to_s
+    required_key = args[0].is_a?(Array) ? args[0].map(&:to_s) : args[0].to_s
     @json_data.dig(*required_key)
   end
 
