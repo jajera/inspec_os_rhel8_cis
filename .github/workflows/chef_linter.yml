@@ -3,7 +3,7 @@ name: Run Chef Cookstyle
 on: push
 
 jobs:
-  super-lint:
+  chef_linter:
     name: Lint chef code using cookstyle
     runs-on: ubuntu-latest
     steps:
